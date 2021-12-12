@@ -5,6 +5,9 @@
 #
 
 name: My-Github-Actions-1
+env:
+  APPLICATION_NAME    : "Myflack"
+  DEPLOY_PACKAGE_NAME : "flack-deploy-ver-${{ github.sha }}"
 
 # Controls when the workflow will run
 on:
@@ -28,11 +31,22 @@ jobs:
     steps: 
     - name : Print Hello message in Testing
       run  : echo "Hello World from Testing job"   
+      
+    - name : Execute a few commands
+      run  : |
+             echo "Hello message 1"
+             echo "Hello message 2"
+             echo "Application name: ${{ env.APPLICATION_NAME }}"
+             
           
   my_deploy: 
-     runs-on: ubuntu-latest 
-     needs: [my_testing]
+    runs-on: ubuntu-latest 
+    needs: [my_testing]
      
-     steps: 
-     - name : Print Hello message in Deploy
-       run  : echo "Hello World from Deploy job"
+    steps: 
+    - name : Print Hello message in Deploy
+      run  : echo "Hello World from Deploy job"
+       
+    - name : Printing Deployment Ppackage
+      run  : |
+             echo "Deploy package name: ${{ env.DEPLOY_PACKAGE_NAME }}"
