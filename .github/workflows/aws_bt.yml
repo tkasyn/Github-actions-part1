@@ -1,0 +1,25 @@
+
+name: CI-CD Pipeline to AWS Elastic Beanstalk
+env : 
+   EB_PACKAGE_S3_BUCKE_NAME : "ADV-IT-flack-application-packages"
+   EB_APPLICATION_NAME      : "MyFlack"
+   EB_ENVIRONMENT_NAME      : "MyFlack-env"
+   DEPLOY_PACKAGE_NAME      : "flack_app_${{ github.sha }}.zip"
+   AWS_REGION_NAME          : "us-east-1"
+   
+on:
+  push:
+    branches: [ main ]
+
+
+jobs:
+  my_ci_part:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git clone our repo
+        uses: actions/checkout@v1
+
+      - name: Create ZIP deployment package
+        run: zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
+
