@@ -41,7 +41,6 @@ jobs:
     needs: [my_ci_part]
 
     steps: 
-
       - name: Configure my AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with: 
@@ -58,7 +57,7 @@ jobs:
           --description "CommitSHA-${{ github.sha }}"
           
       - name: Deploy new ElasticBeanstalk Application Version
-          
+        run : aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NAME }} --version-label "Ver-${{ github.sha }}"
          
          
       - name: Print Happy Massage for CD finish
